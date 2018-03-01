@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>娱乐社区抽奖系统特效</title>
+    <style type="text/css">
+        *{
+            padding:0;
+            margin:0;
+        }
+        body{
+            background:url("img/bg2.jpg") center;
+            background-size:cover;
+        }
+        table{
+            margin:100px auto;
+        }
+        .zd{
+            width:110px;
+            height:110px;
+        }
+        .button{
+            display:inline-block;
+            width:145px;
+            background:blue;
+            text-align: center;
+            color:#fff;
+            line-height:40px;
+            text-decoration:none;/*去超链接的下划线*/
+            border-radius:5px;
+            position:relative;
+            left:130px;
+            top:100px;
+            font-family:"微软雅黑";
+        }
+        .target{
+            width:110px;
+            height:110px;
+            position:absolute;
+            border:2px solid #fff;
+            top:0;
+            left:0;
+        }
+    </style>
+</head>
+<body>
+    <table border="1" cellpadding="0" cellspacing="1">
+        <!-- 1行-->
+        <tr>
+            <!-- 7列-->
+            <td class="zd" style="background:url('img/x1.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x2.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x3.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x4.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x5.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x6.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x7.jpg');background-size:110px 110px;"></td>
+        </tr>
+        <!-- 2行-->
+        <tr>
+            <td class="zd" style="background:url('img/x8.jpg');background-size:110px 110px;"></td>
+            <td colspan="5" rowspan="3">
+                <a class="button button1" href="javascript:void(0)">开始抽奖</a>
+                <a class="button button2" href="javascript:void(0)">重&nbsp;&nbsp;置</a>
+            </td>
+            <td class="zd" style="background:url('img/x9.jpg');background-size:110px 110px;"></td>
+        </tr>
+        <!-- 3行-->
+        <tr>
+            <td class="zd" style="background:url('img/x11.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x12.jpg');background-size:110px 110px;"></td>
+        </tr>
+        <!-- 4行-->
+        <tr>
+            <td class="zd" style="background:url('img/x13.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x14.jpg');background-size:110px 110px;"></td>
+        </tr>
+        <!-- 5行-->
+        <tr>
+            <td class="zd" style="background:url('img/x15.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x16.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x17.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x18.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x19.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x20.jpg');background-size:110px 110px;"></td>
+            <td class="zd" style="background:url('img/x21.jpg');background-size:110px 110px;"></td>
+        </tr>
+    </table>
+    <div class="target"></div>
+    <script type="text/javascript">
+        var oTr=document.getElementsByTagName("tr");
+        var oTd=[];
+        for(var i=0;i<oTr.length;i++){
+            oTd.push(oTr[i].getElementsByTagName("td"));
+        }
+        var list=[];
+        for(var i=0;i<oTr.length;i++){
+            var index=i;//创建一个变量储存这个i
+            switch(index){//括号里面是判断变量
+                case 0://变量等于的时候执行下面的语句
+                    for(var j=0;j<oTd[index].length;j++){
+                      list.push(oTd[index][j]);
+                    }
+                break;//执行完以后抛出
+                case 1:
+                    list.push(oTd[index][2]);
+                break;
+                case 2:
+                    list.push(oTd[index][1]);
+                break;
+                case 3:
+                    list.push(oTd[index][1]);
+                break;
+                case 4:
+                    for(var j=0;j<oTd[index].length;j++){
+                        list.push(oTd[index][j]);
+                    }
+                    for(var j=0;j<oTd[index].length;j++){
+                        list.splice(16-j,1,oTd[index][j]);
+                        //找到某个下标的数组然后替换
+                        //1.要替换的下标  2.删除的元素  3.替换者
+                    }
+                break;
+            }
+        }
+        for(var i=0;i<3;i++){
+            list.push(oTd[3-i][0]);//3-i=3 2 1
+        }
+        //console.log(list);
+        var move=document.getElementsByClassName("target")[0];
+        var tab=document.getElementsByTagName("table")[0];
+        move.style.left=tab.offsetLeft+'px';//字符串的拼接 a+b=ab
+        move.style.top=tab.offsetTop+'px';//初始人光圈的left 和top
+
+        var but=document.getElementsByTagName("a");
+        but[0].onclick=function(){
+            var time=5000;
+            luck();
+            setTimeout(function(){
+                //倒序定时器 1.执行的事件  2.多少时间后执行事件
+                clearInterval(timer);//清除定时器
+            },time+Math.random()*3000);//Math.random()产生一个随机数字0-1  0-3000  timer定时器在5-8s内随机清除
+        }
+        but[1].onclick=function(){
+            clearInterval(timer);
+            move.style.left=tab.offsetLeft+'px';
+            move.style.top=tab.offsetTop+'px';
+        }
+        var timer=null;
+        function luck(){//写一个光圈移动的方法
+            var speed=0;
+            timer=setInterval(function(){
+                //定时器 1.执行的函数  2.多少时间执行一次
+                speed++;
+                if(speed>=20)speed=0;
+                move.style.left=list[speed].offsetLeft+tab.offsetLeft+'px';
+                move.style.top=list[speed].offsetTop+tab.offsetTop+'px';
+            },100);
+
+        }
+    </script>
+</body>
+</html>
